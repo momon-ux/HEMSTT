@@ -1,0 +1,33 @@
+{
+  "name": "HEM SMARTTRACK — SK Ranggu",
+  "short_name": "HEM SMARTTRACK",
+  "description": "Sistem rekod dan analisis kehadiran Sekolah Kebangsaan Ranggu.",
+  "lang": "ms",
+  "id": "./",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f8ff",
+  "theme_color": "#0755b5",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "icon-smarttrack-choice-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-smarttrack-choice-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-smarttrack-choice-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

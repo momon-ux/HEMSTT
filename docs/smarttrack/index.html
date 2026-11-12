@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0755b5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="HEM SMARTTRACK">
+  <title>HEM SMARTTRACK | SK Ranggu</title>
+  <link rel="manifest" href="manifest.webmanifest?v=178">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-smarttrack-choice-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icon-smarttrack-choice-180.png">
+  <link rel="stylesheet" href="styles.css?v=178">
+</head>
+<body>
+  <header class="topbar no-print">
+    <div class="topbar-left">
+      <button id="menuToggle" class="menu-toggle" type="button" aria-controls="mainSidebar" aria-expanded="false">☰ Menu</button>
+      <a class="brand report-brand" href="#utama" aria-label="Laman utama Sekolah Kebangsaan Ranggu">
+        <span class="topbar-logo-pair" aria-hidden="true">
+          <img src="logo-kpm-cutout.png" alt="">
+          <img src="logo-skrg-cutout.png" alt="">
+        </span>
+        <span class="topbar-school-copy">
+          <small>HEM SMARTTRACK</small>
+          <strong>Bahagian Pengurusan Unit HEM SK Ranggu</strong>
+          <span>Sekolah Kebangsaan Ranggu • Tawau, Sabah</span>
+        </span>
+      </a>
+    </div>
+    <div class="top-actions">
+      <span id="saveStatus" class="save-status" aria-live="polite">Memuatkan data…</span>
+      <button id="adminButton" class="admin-button" type="button">⚙ Tetapan sistem</button>
+      <button id="printButton" class="print-button" type="button">🖨 Cetak laporan</button>
+    </div>
+  </header>
+
+  <div class="app-layout">
+  <nav id="mainSidebar" class="workspace-nav no-print" aria-label="Menu utama HEM SMARTTRACK" aria-hidden="true">
+    <p class="sidebar-title">MENU UTAMA</p>
+    <a class="nav-home" href="#utama" data-view-link="home"><strong>Laman Utama</strong><small>Lokasi, pautan dan ringkasan</small></a>
+    <a class="nav-attendance" href="#e-jkm" data-view-link="attendance"><strong>e-JKM</strong><small>Rekod Kehadiran Murid</small></a>
+    <details id="dutyNavGroup" class="sidebar-group nav-duty">
+      <summary><span class="sidebar-group-copy"><strong>Guru Bertugas Mingguan</strong><small>Senarai, pelaporan dan pemantauan</small></span></summary>
+      <div class="sidebar-submenu">
+        <a href="#guru-bertugas-mingguan" data-view-link="dailyDuty"><strong>Senarai &amp; Rumusan Mingguan</strong></a>
+        <a href="#keberadaan-guru-akp" data-view-link="staff"><strong>Keberadaan Guru &amp; AKP</strong></a>
+        <a href="#status-guru-bertugas" data-view-link="dutyStatus"><strong>Status Pengisian Harian</strong></a>
+      </div>
+    </details>
+    <a class="nav-discipline" href="#guru-bertugas" data-view-link="duty"><strong>HEM SmartDisiplin</strong><small>Sistem pengurusan disiplin murid</small></a>
+    <details id="rmtNavGroup" class="sidebar-group nav-rmt">
+      <summary><span class="sidebar-group-copy"><strong>Guru Bertugas RMT</strong><small>Buka pilihan pengurusan RMT</small></span></summary>
+      <div class="sidebar-submenu">
+        <a href="#guru-rmt-status" data-view-link="rmtStatus"><strong>Status Pengisian RMT</strong></a>
+        <a href="#guru-rmt-laporan" data-view-link="rmtReport"><strong>Laporan RMT Harian</strong></a>
+        <a href="#guru-rmt-arkib" data-view-link="rmtArchive"><strong>Arkib &amp; Gambar</strong></a>
+      </div>
+    </details>
+    <a class="nav-analysis" href="#analisis" data-view-link="analysis"><strong>Trend Analisis Kehadiran</strong><small>Graf, KPI dan kelas terbaik</small></a>
+    <a class="nav-opr" href="#template-opr-hem" data-view-link="opr"><strong>Template OPR HEM</strong><small>Program, gambar dan penyedia</small></a>
+  </nav>
+  <button id="sidebarBackdrop" class="sidebar-backdrop no-print" type="button" aria-label="Tutup menu" tabindex="-1"></button>
+
+  <div class="app-content">
+
+  <aside id="identityBar" class="identity-bar no-print" aria-label="Maklumat pengguna semasa" hidden>
+    <label class="user-picker">Nama pengisi
+      <select id="editorName" required><option value="">Pilih nama guru / AKP</option></select>
+      <datalist id="staffNames"></datalist>
+    </label>
+    <div><strong>Nama ini digunakan pada setiap simpanan</strong><small>Taip beberapa huruf atau buka senarai, kemudian pilih nama guru.</small></div>
+  </aside>
+
+  <main id="top" class="page-shell">
+    <section id="homeView" class="app-view home-view" data-view-panel="home" aria-label="Laman utama">
+      <section id="lokasi-sekolah" class="school-location no-print" aria-labelledby="schoolLocationTitle">
+        <div class="school-location-bar">
+          <div><p class="eyebrow">Sekolah Kebangsaan Ranggu</p><h2 id="schoolLocationTitle">Lokasi &amp; Pautan Rasmi</h2></div>
+          <a id="idmeShortcut" class="idme-icon" href="https://idme.moe.gov.my/login" target="_blank" rel="noopener noreferrer" draggable="false" title="Seret untuk alihkan • Tekan untuk buka Portal idMe" aria-label="Buka Sistem Pengurusan Identiti idMe KPM"><img src="idme-official-icon.png?v=178" alt="Sistem Pengurusan Identiti idMe KPM" draggable="false"></a>
+        </div>
+        <div class="school-map-frame">
+          <iframe title="Peta lokasi Sekolah Kebangsaan Ranggu" src="https://www.google.com/maps?q=Sekolah%20Kebangsaan%20Ranggu%2C%20Tawau%2C%20Sabah&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+      </section>
+      <section class="home-summary-card" aria-labelledby="homeSummaryTitle">
+        <div class="home-summary-heading"><div><p class="eyebrow">Ringkasan kehadiran</p><h2 id="homeSummaryTitle">Ringkasan Kehadiran</h2></div><time id="homeSummaryDate">—</time></div>
+        <div class="summary-grid" aria-label="Ringkasan kehadiran">
+          <div><span>Keseluruhan sekolah (termasuk Pra)</span><strong id="summaryEnrol">0</strong></div>
+          <div><span>Hadir</span><strong id="summaryPresent">0</strong></div>
+          <div class="danger"><span>Tidak hadir</span><strong id="summaryAbsent">0</strong></div>
+          <div class="success"><span>Peratus hadir</span><strong id="summaryPercent">0%</strong></div>
+        </div>
+      </section>
+      <section class="enrolment-overview" aria-labelledby="enrolmentOverviewTitle">
+        <div class="enrolment-overview-heading">
+          <div><p class="eyebrow">Data enrolmen • 3 Oktober 2026</p><h2 id="enrolmentOverviewTitle">Ringkasan Murid Perdana</h2></div>
+          <small>Murid Perdana ialah Tahun 1 hingga Tahun 6 dan tidak termasuk Prasekolah.</small>
+        </div>
+        <div class="enrolment-kpis" aria-label="Ringkasan enrolmen murid">
+          <article><span>Murid Perdana</span><strong id="primaryEnrolTotal">0</strong></article>
+          <article><span>Prasekolah</span><strong id="preschoolEnrolTotal">0</strong></article>
+          <article><span>Keseluruhan sekolah</span><strong id="schoolEnrolTotal">0</strong></article>
+          <article><span>Lelaki Perdana</span><strong id="primaryMaleTotal">0</strong></article>
+          <article><span>Perempuan Perdana</span><strong id="primaryFemaleTotal">0</strong></article>
+        </div>
+        <div id="yearEnrolTotals" class="year-enrol-totals" aria-label="Jumlah murid mengikut peringkat"></div>
+        <div class="enrolment-demographics" aria-label="Demografi murid Perdana">
+          <span><b>801</b> Islam</span><span><b>15</b> Bukan Islam</span><span><b>16</b> Bukan warganegara / tiada maklumat</span>
+          <span><b>84</b> Melayu</span><span><b>1</b> Cina</span><span><b>308</b> Bumiputera Sabah</span><span><b>423</b> Lain-lain</span>
+        </div>
+      </section>
+      <section class="home-session-panel" aria-labelledby="homeSessionTitle">
+        <div class="home-summary-heading"><div><p class="eyebrow">Pembahagian operasi</p><h2 id="homeSessionTitle">Sidang Sekolah</h2></div></div>
+        <div class="home-session-grid">
+          <article class="afternoon">
+            <div class="home-session-head"><span aria-hidden="true">🌇</span><div><strong>SIDANG PETANG</strong><small>Tahun 1, Tahun 2 dan Tahun 3</small></div></div>
+            <div id="homeAfternoonClasses" class="home-class-totals" aria-label="Jumlah murid setiap kelas sidang petang"><p>Memuatkan jumlah kelas…</p></div>
+          </article>
+          <article class="morning">
+            <div class="home-session-head"><span aria-hidden="true">🌅</span><div><strong>SIDANG PAGI</strong><small>Tahun 4, Tahun 5 dan Tahun 6</small></div></div>
+            <div id="homeMorningClasses" class="home-class-totals" aria-label="Jumlah murid setiap kelas sidang pagi"><p>Memuatkan jumlah kelas…</p></div>
+          </article>
+        </div>
+      </section>
+      <section class="home-hem-panel" aria-labelledby="homeHemTitle">
+        <div class="home-summary-heading">
+          <div><p class="eyebrow">Organisasi Hal Ehwal Murid 2026</p><h2 id="homeHemTitle">Carta Organisasi Pengurusan HEM</h2></div>
+          <span class="hem-year-badge">SESI 2026</span>
+        </div>
+        <p id="hemOrganizationStatus" class="hem-organization-status" role="status">Memuatkan carta organisasi HEM…</p>
+        <div id="hemLeadershipChart" class="hem-leadership-chart" aria-label="Hierarki kepimpinan Hal Ehwal Murid"></div>
+        <div id="hemUnitChart" class="hem-unit-chart" aria-label="Bidang dan pegawai Hal Ehwal Murid"></div>
+      </section>
+      <section class="community-stats" aria-labelledby="communityStatsTitle">
+        <div><p class="eyebrow">Statistik warga SK Ranggu</p><h2 id="communityStatsTitle">Warga Sekolah</h2><small>Dikemas kini oleh pentadbir sistem.</small></div>
+        <article><span>👩‍🏫</span><div><strong id="teacherStat">58</strong><small>Guru</small></div></article>
+        <article><span>🧑‍💼</span><div><strong id="akpStat">3</strong><small>AKP</small></div></article>
+      </section>
+    </section>
+
+    <section id="viewAttendance" class="app-view" data-view-panel="attendance" aria-label="Kehadiran harian">
+    <section class="date-panel no-print" aria-labelledby="dateTitle">
+      <div>
+        <p class="eyebrow">e-JKM • Rekod Kehadiran Murid</p>
+        <h1 id="dateTitle">Pilih tarikh untuk isi kehadiran</h1>
+        <p>Semua guru boleh mengisi. Setiap perubahan disimpan secara automatik untuk tarikh yang dipilih.</p>
+      </div>
+      <div class="entry-controls">
+        <label class="date-picker">Tarikh laporan
+          <input id="reportDate" type="date" required>
+        </label>
+        <label class="session-picker">Paparan kehadiran
+          <select id="sessionFilter">
+            <option value="all">Keseluruhan sekolah</option>
+            <option value="morning">Sidang pagi</option>
+            <option value="afternoon">Sidang petang</option>
+          </select>
+          <small>Pilih sidang untuk semak peratus dan cetak.</small>
+        </label>
+      </div>
+    </section>
+
+    <article class="report-card">
+      <header class="report-head">
+        <div class="logo-pair" aria-label="Logo Kementerian Pendidikan Malaysia dan Sekolah Kebangsaan Ranggu">
+          <img class="crest crest-kpm" src="logo-kpm-cutout.png" alt="Logo Kementerian Pendidikan Malaysia">
+          <img class="crest crest-school" src="logo-skrg-cutout.png" alt="Logo Sekolah Kebangsaan Ranggu">
+        </div>
+        <div>
+          <p class="report-kicker">LAPORAN KEDATANGAN HARIAN</p>
+          <h2>SEKOLAH KEBANGSAAN RANGGU</h2>
+          <p>PETI SURAT 842, 91008 TAWAU, SABAH • SESI 2026</p>
+          <strong id="sessionReportLabel" class="session-report-label">KESELURUHAN SEKOLAH</strong>
+        </div>
+        <div class="report-date-block"><span>Tarikh</span><strong id="dateLong">—</strong><small id="dayLong">—</small></div>
+      </header>
+
+      <section class="table-section">
+        <div class="section-heading"><div><span>1</span><h3>e-JKM — Rekod Kehadiran Murid</h3></div><div class="completion-legend" aria-label="Petunjuk status pengisian"><span class="complete">● Selesai di pelayan</span><span class="saving">● Sedang disimpan</span><span class="incomplete">● Belum selesai</span></div></div>
+        <div id="attendanceSyncStatus" class="attendance-sync-status" role="status" aria-live="polite">Memuatkan status simpanan…</div>
+        <div id="classCompletionLists" class="class-completion-lists" aria-live="polite"></div>
+        <div class="table-scroll">
+          <table class="attendance-table">
+            <thead>
+              <tr><th rowspan="2">Bil</th><th rowspan="2" class="name-col">Guru kelas</th><th rowspan="2">Kelas</th><th rowspan="2" class="status-col">Status</th><th colspan="3">Dalam daftar</th><th colspan="3">Hadir</th><th rowspan="2">% Hadir</th><th colspan="3" class="absent-head">Tidak hadir</th><th rowspan="2">% TH</th><th rowspan="2" class="note-col">Senarai Murid Tidak Hadir</th></tr>
+              <tr><th>L</th><th>P</th><th>J</th><th>L</th><th>P</th><th>J</th><th class="absent-head">L</th><th class="absent-head">P</th><th class="absent-head">J</th></tr>
+            </thead>
+            <tbody id="attendanceBody"></tbody>
+            <tfoot id="attendanceTotals"></tfoot>
+          </table>
+        </div>
+      </section>
+
+    </article>
+    </section>
+
+    <section id="staffView" class="utility-card app-view no-print compact-staff-view" data-view-panel="staff" hidden>
+      <div class="utility-head">
+        <div><p class="eyebrow">Guru Bertugas Mingguan · 2.2</p><h2>Keberadaan Guru dan AKP</h2><p>Catat pegawai yang tidak berada di sekolah pada tarikh pilihan.</p></div>
+        <div class="utility-controls"><label>Tarikh rekod<input id="staffPageDate" type="date" required></label></div>
+      </div>
+      <nav class="staff-session-tabs" aria-label="Pilih sidang keberadaan">
+        <button class="active morning" type="button" data-staff-session-tab="morning" aria-pressed="true"><span>🌅</span><b>Sidang Pagi</b><strong id="staffMorningCount">0</strong></button>
+        <button class="afternoon" type="button" data-staff-session-tab="afternoon" aria-pressed="false"><span>🌇</span><b>Sidang Petang</b><strong id="staffAfternoonCount">0</strong></button>
+      </nav>
+      <div class="staff-session-grid standalone-table-wrap compact-staff-grid">
+        <section class="staff-session-card morning-card" data-staff-session-panel="morning"><header class="staff-card-head"><div><strong>Sidang Pagi</strong><small>Pegawai yang tidak berada di sekolah</small></div><button type="button" data-staff-add="morning">＋ Tambah rekod</button></header><div class="table-scroll staff-table-scroll"><table class="staff-table"><thead><tr><th>Bil</th><th>Nama guru / AKP</th><th>Sebab</th><th>Catatan tambahan</th></tr></thead><tbody id="staffMorningBody"></tbody></table></div></section>
+        <section class="staff-session-card afternoon-card" data-staff-session-panel="afternoon" hidden><header class="staff-card-head"><div><strong>Sidang Petang</strong><small>Pegawai yang tidak berada di sekolah</small></div><button type="button" data-staff-add="afternoon">＋ Tambah rekod</button></header><div class="table-scroll staff-table-scroll"><table class="staff-table"><thead><tr><th>Bil</th><th>Nama guru / AKP</th><th>Sebab</th><th>Catatan tambahan</th></tr></thead><tbody id="staffAfternoonBody"></tbody></table></div></section>
+      </div>
+    </section>
+
+    <section id="dailyDutyView" class="utility-card app-view no-print compact-daily-duty" data-view-panel="dailyDuty" hidden>
+      <div class="utility-head">
+        <div><p class="eyebrow">Guru Bertugas Mingguan · 2.1</p><h2>Senarai &amp; Rumusan Mingguan</h2><p>Nama guru dipilih sekali bagi minggu tersebut. Sistem menghimpunkan semua rekod HEM menjadi satu rumusan mingguan bagi setiap sidang.</p></div>
+        <div class="utility-controls"><label>Tarikh rekod<input id="dailyDutyDate" type="date" required></label></div>
+      </div>
+      <div class="duty-week-toolbar">
+        <div><small>Senarai bertugas minggu ini</small><strong id="dutyWeekLabel">Memuatkan minggu…</strong></div>
+        <span id="dutyWeekState" class="duty-week-state">Memuatkan…</span>
+        <button id="dutyWeekEdit" class="secondary-button" type="button" hidden>✎ Edit senarai</button>
+        <button id="dutyWeekSave" class="primary-button" type="button" hidden>🔒 Simpan &amp; kunci</button>
+      </div>
+      <nav class="daily-duty-tabs" aria-label="Pilih sidang guru bertugas">
+        <button class="active morning" type="button" data-daily-duty-tab="morning" aria-pressed="true">🌅 <b>Sidang Pagi</b></button>
+        <button class="afternoon" type="button" data-daily-duty-tab="afternoon" aria-pressed="false">🌇 <b>Sidang Petang</b></button>
+      </nav>
+      <div class="duty-smart-layout">
+        <section class="duty-roster-card">
+          <header><div><small>GURU MINGGU INI</small><strong id="dutyRosterTitle">Sidang Pagi</strong></div><span id="dutyRosterCount">0 orang</span></header>
+          <div class="duty-session-card morning-card" data-daily-duty-panel="morning">
+            <table class="duty-table"><thead><tr><th>Bil</th><th>Nama guru bertugas</th></tr></thead><tbody id="dutyMorningBody"></tbody></table>
+          </div>
+          <div class="duty-session-card afternoon-card" data-daily-duty-panel="afternoon" hidden>
+            <table class="duty-table"><thead><tr><th>Bil</th><th>Nama guru bertugas</th></tr></thead><tbody id="dutyAfternoonBody"></tbody></table>
+          </div>
+        </section>
+        <section class="weekly-duty-report-card">
+          <header class="weekly-report-head"><div><small>ANALISIS SISTEM</small><strong>Rumusan Mingguan Automatik</strong></div><span id="weeklyReportState">Draf automatik</span></header>
+          <div class="weekly-report-metrics">
+            <article><span>🎒</span><strong id="weeklyAttendanceRate">—</strong><small>purata murid minggu ini</small></article>
+            <article><span>🌅</span><strong id="weeklyTeacherMorningRate">—</strong><small>guru pagi · mingguan</small></article>
+            <article><span>🌇</span><strong id="weeklyTeacherAfternoonRate">—</strong><small>guru petang · mingguan</small></article>
+            <article><span>👥</span><strong id="weeklyAkpPresenceRate">—</strong><small>AKP · mingguan</small></article>
+            <article><span>🍽️</span><strong id="weeklyRmtCount">0</strong><small>laporan RMT minggu ini</small></article>
+            <article class="attention"><span>⚠️</span><strong id="weeklyReportActionCount">0</strong><small>tindakan minggu ini</small></article>
+          </div>
+          <details id="weeklyReportActionSources" class="weekly-action-sources" hidden></details>
+          <label class="weekly-summary-field">Rumusan laporan minggu<textarea id="weeklyReportSummary" rows="5" readonly aria-readonly="true"></textarea></label>
+          <div class="weekly-report-signoff">
+            <div class="weekly-signoff-person prepared"><label>Disediakan oleh<select id="weeklyReportPreparedBy"><option value="">Pilih nama guru / AKP</option></select></label></div>
+            <div class="weekly-signoff-person approved">
+              <label>Disahkan oleh<select id="weeklyReportApprovedBy"><option value="">Pilih pentadbir sekolah</option></select></label>
+              <label>Jawatan pengesah<input id="weeklyReportApprovedTitle" type="text" readonly aria-readonly="true"></label>
+            </div>
+          </div>
+          <p id="weeklyReportSources" class="weekly-report-sources"></p>
+          <div class="weekly-report-actions">
+            <button id="weeklyReportGenerate" class="secondary-button" type="button">↻ Jana semula</button>
+            <button id="weeklyReportEdit" class="secondary-button" type="button">✎ Edit rumusan</button>
+            <button id="weeklyReportSave" class="primary-button" type="button">✓ Sahkan laporan minggu</button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="dutyStatusView" class="utility-card app-view no-print duty-status-view" data-view-panel="dutyStatus" hidden>
+      <div class="duty-status-head">
+        <div><p class="eyebrow">Guru Bertugas Mingguan · 2.3</p><h2>Status Pengisian Harian</h2><p>Klik tarikh, pilih sidang pagi atau petang, kemudian lihat laporan atau tambah rekod pemantauan.</p></div>
+        <label>Bulan pemantauan<input id="dutyStatusMonth" type="month"></label>
+      </div>
+      <div class="duty-status-summary" aria-label="Ringkasan status bulanan">
+        <article><span>Jumlah hari direkod</span><strong id="dutyStatusRecorded">0</strong></article>
+        <article class="complete"><span>Lengkap bergambar</span><strong id="dutyStatusComplete">0</strong></article>
+        <article class="partial"><span>Perlu dilengkapkan</span><strong id="dutyStatusPartial">0</strong></article>
+        <article class="missing"><span>Belum diisi</span><strong id="dutyStatusMissing">0</strong></article>
+      </div>
+      <div class="duty-status-legend" aria-label="Petunjuk warna"><span class="complete">Hijau: pagi &amp; petang lengkap</span><span class="partial">Kuning: satu sidang / belum lengkap</span><span class="missing">Merah muda: kedua-dua belum diisi</span><span class="weekend">Kelabu: hujung minggu / akan datang</span></div>
+      <div class="duty-status-weekdays" aria-hidden="true"><span>Isn</span><span>Sel</span><span>Rab</span><span>Kha</span><span>Jum</span><span>Sab</span><span>Ahd</span></div>
+      <div id="dutyStatusCalendar" class="duty-status-calendar" aria-live="polite"></div>
+      <p id="dutyStatusMessage" class="duty-status-message" role="status">Pilih bulan untuk menyemak rekod.</p>
+      <section id="dutyStatusDetail" class="duty-status-detail" aria-live="polite"><p>Pilih satu tarikh pada kalendar untuk melihat butiran pengisian.</p></section>
+      <div id="dutyStatusMonitoringWorkspace" class="duty-status-monitoring-workspace" hidden></div>
+    </section>
+
+    <section id="weeklyDutyView" class="utility-card app-view no-print discipline-one-screen" data-view-panel="duty" hidden>
+      <header class="discipline-compact-head">
+        <span class="smart-discipline-icon" aria-hidden="true">🛡️</span>
+        <div><p class="eyebrow">Sistem disiplin murid</p><h2>HEM SmartDisiplin</h2><p>Ringkasan sekolah, trend enam bulan dan tindakan utama dalam satu paparan.</p></div>
+        <nav aria-label="Pautan SmartDisiplin"><a href="https://fikreyxcode.github.io/hem-smartdisiplin-skrg/?public=1" target="_blank" rel="noopener noreferrer">Paparan awam</a><a class="primary" href="https://fikreyxcode.github.io/hem-smartdisiplin-skrg/" target="_blank" rel="noopener noreferrer">Buka sistem ↗</a></nav>
+      </header>
+      <div class="discipline-kpi-grid" aria-label="Ringkasan disiplin sekolah">
+        <article><span>Jumlah kes</span><strong id="disciplineTotalCases">—</strong><small>semua rekod</small></article>
+        <article class="amber"><span>Dalam tindakan</span><strong id="disciplineInProgress">—</strong><small>sedang disusuli</small></article>
+        <article class="green"><span>Selesai</span><strong id="disciplineCompleted">—</strong><small>tindakan lengkap</small></article>
+        <article class="red"><span>Perlu perhatian</span><strong id="disciplineAlertTotal">—</strong><small>perlu tindakan segera</small></article>
+      </div>
+      <div class="discipline-insight-grid">
+        <section class="discipline-trend-card" aria-labelledby="disciplineTrendTitle">
+          <header><div><p class="eyebrow">Trend 6 bulan</p><h3 id="disciplineTrendTitle">Perubahan kes disiplin</h3></div><small>Semakin rendah, semakin baik</small></header>
+          <div id="disciplineTrendChart" class="discipline-trend-chart" aria-live="polite"><p>Memuatkan trend sebenar…</p></div>
+        </section>
+        <section class="discipline-alert-card" aria-labelledby="disciplineAlertTitle">
+          <div class="discipline-alert-heading"><span aria-hidden="true">⚠️</span><div><small>FOKUS TINDAKAN</small><strong id="disciplineAlertTitle">Perkara perlu perhatian</strong></div><b id="disciplineAlertBadge">—</b></div>
+          <div class="discipline-alert-list">
+            <span>Menunggu tindakan Guru Disiplin <strong id="disciplinePendingAction">—</strong></span>
+            <span>Permohonan SSDM menunggu keputusan <strong id="disciplinePendingSsdm">—</strong></span>
+            <span>SSDM perlu tindakan lanjut <strong id="disciplineSsdmAttention">—</strong></span>
+          </div>
+          <p id="disciplineAlertStatus" role="status">Memuatkan status semasa…</p>
+        </section>
+      </div>
+      <div hidden aria-hidden="true"><input id="weeklyDutyDate" type="date"><button id="weeklyDutyRefresh" type="button"></button><p id="weeklyDutyStatus"></p><div id="weeklyDutyGrid"></div></div>
+    </section>
+
+    <section id="completionView" class="utility-card app-view no-print" data-view-panel="completion" hidden>
+      <div class="utility-head">
+        <div><p class="eyebrow">Status pengisian</p><h2>Kelas Selesai &amp; Belum Selesai</h2><p>Semak kelas yang telah menghantar rekod bagi tarikh dan sidang pilihan.</p></div>
+        <div class="utility-controls"><label>Tarikh<input id="completionDate" type="date" required></label><label>Sidang<select id="completionSession"><option value="all">Keseluruhan</option><option value="morning">Pagi</option><option value="afternoon">Petang</option></select></label><button id="completionRefresh" class="primary-button" type="button">Semak</button></div>
+      </div>
+      <p id="completionStatus" class="analysis-status" role="status">Pilih tarikh untuk semakan.</p>
+      <div id="completionListsView" class="class-completion-lists large-completion"></div>
+    </section>
+
+    <section id="calendarView" class="utility-card app-view no-print" data-view-panel="calendar" hidden>
+      <div class="utility-head">
+        <div><p class="eyebrow">Rekod mengikut tarikh</p><h2>Kalendar Pengisian Kehadiran</h2><p>Pilih tarikh pada kalendar untuk melihat kelas, peratus kehadiran dan nama pengisi terakhir.</p></div>
+        <div class="utility-controls"><label>Tarikh kalendar<input id="calendarDate" type="date" required></label><button id="calendarRefresh" class="primary-button" type="button">Buka rekod</button></div>
+      </div>
+      <p id="calendarStatus" class="analysis-status" role="status">Pilih tarikh untuk membuka rekod.</p>
+      <div class="analysis-table-wrap"><table class="analysis-table calendar-table"><thead><tr><th>Kelas</th><th>Guru kelas</th><th>Peratus hadir</th><th>Status</th><th>Nama pengisi terakhir</th><th>Masa simpanan</th></tr></thead><tbody id="calendarTableBody"></tbody></table></div>
+    </section>
+
+    <section id="monitoringReports" class="monitoring-card smart-monitoring app-view no-print" data-view-panel="monitoring" aria-labelledby="monitoringTitle" hidden>
+      <div class="monitoring-head smart-monitoring-head">
+        <div>
+          <p class="eyebrow">Pengisian Pemantauan Harian</p>
+          <h2 id="monitoringTitle">Kalendar Pemantauan Harian</h2>
+          <p>Klik petak tarikh untuk mengisi atau melihat laporan pemantauan.</p>
+        </div>
+        <label class="smart-date-control"><span>Bulan pemantauan</span><input id="monitoringCalendarMonth" type="month" required></label>
+        <input id="monitoringDate" type="date" required hidden>
+        <span class="monitoring-date-label" hidden>Tarikh laporan: <strong id="monitoringDateLabel">—</strong></span>
+      </div>
+      <div class="duty-status-legend monitoring-calendar-legend" aria-label="Petunjuk warna kalendar"><span class="complete">Hijau: laporan lengkap</span><span class="partial">Kuning: perlu dilengkapkan</span><span class="missing">Merah muda: belum diisi</span><span class="weekend">Kelabu: hujung minggu / akan datang</span><span class="attention">⚠ Perlu tindakan pentadbir</span></div>
+      <div class="duty-status-weekdays" aria-hidden="true"><span>Isn</span><span>Sel</span><span>Rab</span><span>Kha</span><span>Jum</span><span>Sab</span><span>Ahd</span></div>
+      <div id="monitoringCalendar" class="duty-status-calendar monitoring-calendar" aria-live="polite"></div>
+      <p id="monitoringCalendarStatus" class="duty-status-message" role="status">Memuatkan kalendar pemantauan…</p>
+      <div id="monitoringSmartSummary" hidden aria-hidden="true"></div>
+      <div id="monitoringWorkspaceHome">
+      <section id="monitoringDayWorkspace" class="monitoring-day-workspace" hidden>
+        <header id="monitoringSelectedDayHead" class="monitoring-selected-day-head"></header>
+        <details id="monitoringFormDisclosure" class="monitoring-workspace-disclosure">
+          <summary><span>＋ Isi / lengkapkan laporan tarikh ini</span><small>Pilih kawasan, nilai keadaan dan lampirkan gambar.</small></summary>
+          <form id="monitoringForm" class="monitoring-form dynamic-monitoring-form">
+        <div class="monitoring-session-header">
+          <label>Sidang laporan<select id="monitoringSession" required><option value="">Pilih sidang</option><option value="morning">🌅 Sidang Pagi</option><option value="afternoon">🌇 Sidang Petang</option></select></label>
+        </div>
+        <section class="monitoring-shared-photos" aria-labelledby="monitoringSharedPhotoTitle">
+          <label><span><strong id="monitoringSharedPhotoTitle">Gambar untuk laporan ini</strong><small>Satu gambar sudah memadai walaupun banyak kawasan dipilih.</small></span><input id="monitoringPhotos" type="file" accept="image/*,.heic,.heif" multiple required></label>
+          <div id="monitoringPreview" class="monitoring-preview" aria-live="polite"></div>
+        </section>
+        <div class="monitoring-location-picker-head"><div><strong>Pilih kawasan yang dipantau</strong><small>Scroll dan tekan semua kawasan yang berkenaan.</small></div><span id="monitoringSelectedCount">0 dipilih</span></div>
+        <div id="monitoringLocationChecklist" class="monitoring-location-checklist" role="group" aria-label="Senarai kawasan pemantauan"></div>
+        <p class="monitoring-form-hint">Hanya kawasan yang dipilih akan dimasukkan dalam satu laporan lengkap.</p>
+        <div id="monitoringItems" class="monitoring-items"><p class="monitoring-empty">Belum ada kawasan dipilih. Scroll senarai di atas dan tekan kawasan yang dipantau.</p></div>
+        <div hidden aria-hidden="true"><select id="monitoringCategory"><option value="both">Kebersihan dan keselamatan</option></select><input id="monitoringLocation"><select id="routeStatus"><option value="not_applicable">Tidak berkaitan</option></select><select id="parkingStatus"><option value="not_applicable">Tidak berkaitan</option></select><textarea id="monitoringIssue"></textarea><textarea id="monitoringAction"></textarea></div>
+        <div class="monitoring-submit-row">
+          <button id="monitoringSave" class="primary-button" type="submit">Simpan satu laporan lengkap</button>
+          <p id="monitoringFormStatus" class="form-message" role="status" aria-live="polite"></p>
+        </div>
+          </form>
+        </details>
+        <section id="monitoringArchiveSection" class="monitoring-day-archive">
+          <div class="monitoring-gallery-head smart-gallery-head">
+            <div><h3>Laporan pada tarikh dipilih</h3><p>Gambar, status kawasan dan tindakan yang diperlukan.</p></div>
+            <button id="monitoringRefresh" class="secondary-button" type="button">Muat semula</button>
+          </div>
+          <div id="monitoringListStatus" class="monitoring-list-status" role="status" aria-live="polite">Memuatkan laporan…</div>
+          <div id="monitoringGallery" class="monitoring-gallery"></div>
+        </section>
+      </section>
+      </div>
+    </section>
+
+    <section id="oprView" class="monitoring-card app-view no-print" data-view-panel="opr" aria-labelledby="oprTitle" hidden>
+      <div class="monitoring-head">
+        <div><p class="eyebrow">Arkib dokumen HEM</p><h2 id="oprTitle">Kalender OPR HEM &amp; Surat Menyurat</h2><p>Pilih tarikh untuk melihat, menambah atau mengemas kini rekod OPR dan surat dalam satu paparan.</p></div>
+        <details class="opr-storage-menu"><summary>Simpanan Drive</summary><div><strong>OPR HEM</strong><a href="https://drive.google.com/drive/folders/1YP8_ko7EgwcPCGuU2xKYvmtH0ogCm2IQ" target="_blank" rel="noopener">Simpanan 1 ↗</a><a href="https://drive.google.com/drive/folders/1klaopuebuVSOlNUI-b7pBarL_Mr1qzto" target="_blank" rel="noopener">Simpanan 2 (MOE) ↗</a><strong>Surat Menyurat</strong><a href="https://drive.google.com/drive/folders/15ZcrKi-vr0-2ZNUrkMAmjucGPOPaldnx" target="_blank" rel="noopener">Simpanan 1 ↗</a><a href="https://drive.google.com/drive/folders/15nbwLjnsjVx-DNqdJLwAdUznLb0EPlQY" target="_blank" rel="noopener">Simpanan 2 (MOE) ↗</a></div></details>
+      </div>
+
+      <section class="opr-calendar-shell" aria-labelledby="oprCalendarTitle">
+        <div class="opr-calendar-toolbar">
+          <div><p class="eyebrow">Paparan bulanan</p><h3 id="oprCalendarTitle">Arkib Kalender HEM</h3></div>
+          <div class="opr-month-controls"><button id="oprMonthPrevious" type="button" aria-label="Bulan sebelumnya">‹</button><label>Bulan<input id="oprCalendarMonth" type="month"></label><button id="oprMonthToday" type="button">Bulan ini</button><button id="oprMonthNext" type="button" aria-label="Bulan seterusnya">›</button><button id="oprRefresh" type="button" aria-label="Muat semula kalender">↻</button></div>
+        </div>
+        <div class="opr-filter-tabs" role="tablist" aria-label="Tapis jenis dokumen"><button class="active" type="button" data-opr-filter="all" role="tab" aria-selected="true">Semua</button><button type="button" data-opr-filter="opr" role="tab" aria-selected="false">OPR HEM</button><button type="button" data-opr-filter="letter" role="tab" aria-selected="false">Surat Menyurat</button></div>
+        <div id="oprCalendarSummary" class="opr-calendar-summary" aria-live="polite"></div>
+        <div class="opr-calendar-legend" aria-label="Petunjuk warna"><span class="opr-only">Biru: OPR HEM</span><span class="letter-only">Ungu: Surat</span><span class="both">Dua warna: Kedua-duanya</span><span class="empty">Kelabu: Tiada rekod</span></div>
+        <div class="opr-calendar-weekdays" aria-hidden="true"><span>Isn</span><span>Sel</span><span>Rab</span><span>Kha</span><span>Jum</span><span>Sab</span><span>Ahd</span></div>
+        <div id="oprCalendarGrid" class="opr-calendar-grid" aria-live="polite"></div>
+        <p id="oprCalendarStatus" class="monitoring-list-status" role="status">Memuatkan kalender dokumen HEM…</p>
+      </section>
+
+      <section id="oprCalendarDetail" class="opr-calendar-detail" aria-live="polite">
+        <div class="opr-detail-heading"><div><p class="eyebrow">Tarikh dipilih</p><h3 id="oprCalendarDetailTitle">Pilih tarikh pada kalender</h3><p id="oprCalendarDetailCount">OPR dan surat untuk tarikh pilihan akan dipaparkan di sini.</p></div><div class="opr-detail-actions"><button id="oprAddButton" class="primary-button" type="button">+ Tambah OPR</button><button id="letterAddButton" class="secondary-button" type="button">+ Tambah Surat</button><button id="oprDetailClose" class="opr-detail-close" type="button" aria-label="Tutup butiran tarikh">×</button></div></div>
+        <section id="oprDetailSection"><div class="opr-detail-section-title"><h4>OPR HEM</h4><span id="oprListStatus"></span></div><div id="oprGallery" class="monitoring-gallery opr-gallery"></div></section>
+        <section id="letterDetailSection"><div class="opr-detail-section-title"><h4>Surat Menyurat HEM</h4><span id="letterListStatus"></span></div><div id="latestLetterGrid" class="hem-letter-grid" aria-live="polite"></div></section>
+      </section>
+
+      <section id="oprEntryPanel" class="opr-entry-panel" hidden>
+        <div class="opr-entry-heading"><div><p class="eyebrow">Rekod baharu</p><h3>Tambah OPR HEM</h3></div><button id="oprFormClose" type="button" aria-label="Tutup borang OPR">×</button></div>
+      <form id="oprForm" class="monitoring-form opr-form">
+        <div class="monitoring-grid">
+          <label>Nama program<input id="oprProgram" type="text" maxlength="180" placeholder="Taip nama program" required></label>
+          <label>Tarikh program<input id="oprDate" type="date" required></label>
+          <label>Disediakan oleh<select id="oprPreparedBy" class="staff-choice" required><option value="">Pilih nama guru</option></select></label>
+        </div>
+        <label class="photo-uploader">Gambar program<input id="oprPhotos" type="file" accept="image/*,.heic,.heif" multiple required><span>Pilih 1 hingga 4 gambar. Gambar akan dikecilkan secara automatik sebelum disimpan.</span></label>
+        <div id="oprPreview" class="monitoring-preview" aria-live="polite"></div>
+        <div class="monitoring-submit-row"><button id="oprSave" class="primary-button" type="submit">Simpan OPR HEM</button><p id="oprFormStatus" class="form-message" role="status"></p></div>
+      </form>
+      </section>
+
+      <section id="letterEntryPanel" class="opr-entry-panel" hidden aria-labelledby="letterUploadTitle">
+        <div class="opr-entry-heading"><div><p class="eyebrow">Rekod baharu</p><h3 id="letterUploadTitle">Tambah Surat Menyurat HEM</h3></div><button id="letterFormClose" type="button" aria-label="Tutup borang surat">×</button></div>
+        <form id="letterForm" class="letter-upload-form" aria-labelledby="letterUploadTitle">
+          <div class="letter-upload-grid">
+            <label>Tajuk surat<input id="letterName" type="text" maxlength="220" placeholder="Contoh: Surat Makluman Program HEM" required></label>
+            <label>Tarikh surat<input id="letterDate" type="date" required></label>
+            <label>Kategori<select id="letterCategory" required><option>Surat Masuk</option><option>Surat Keluar</option><option>Surat Dalaman</option><option>Surat Makluman</option><option>Surat PPD / JPN / KPM</option><option>Lain-lain</option></select></label>
+            <label>No. rujukan<input id="letterReference" type="text" maxlength="120" placeholder="Pilihan"></label>
+            <label>Nama pengunggah<select id="letterUpdatedBy" class="staff-choice" required><option value="">Pilih nama guru / AKP</option></select></label>
+            <label>Pautan Google Drive (pilihan)<input id="letterDriveUrl" type="url" placeholder="https://drive.google.com/..."></label>
+            <label class="letter-upload-note">Catatan<textarea id="letterNote" maxlength="1000" rows="3" placeholder="Ringkasan atau tindakan berkaitan surat (pilihan)"></textarea></label>
+            <label class="letter-upload-file">Fail surat (PDF, DOC, DOCX atau gambar; maks. 8 MB)<input id="letterFile" type="file" accept=".pdf,.doc,.docx,image/jpeg,image/png,image/webp"></label>
+          </div>
+          <div class="monitoring-submit-row"><button id="letterSave" class="primary-button" type="submit">Simpan Surat HEM</button><p id="letterStatus" class="form-message" role="status" aria-live="polite"></p></div>
+        </form>
+      </section>
+      <button id="letterArchiveToggle" type="button" hidden aria-expanded="false"></button><div id="letterArchive" hidden><p id="letterArchiveStatus"></p><div id="letterArchiveGrid"></div></div>
+    </section>
+
+    <section id="attendanceAnalysis" class="analysis-card app-view no-print" data-view-panel="analysis" aria-labelledby="analysisTitle" hidden>
+      <div class="analysis-head">
+        <div>
+          <p class="eyebrow">Menu 5 · Analisis data bersama</p>
+          <h2 id="analysisTitle">Trend Analisis Kehadiran</h2>
+          <p>Ringkasan dan graf garis utama dipaparkan dahulu. Buka bahagian terperinci hanya apabila diperlukan.</p>
+        </div>
+        <div class="analysis-controls">
+          <label>Tempoh
+            <select id="analysisPeriod">
+              <option value="week">Mingguan</option>
+              <option value="month">Bulanan</option>
+            </select>
+          </label>
+          <label>Tarikh rujukan
+            <input id="analysisDate" type="date" required>
+          </label>
+          <button id="analysisRefresh" class="primary-button" type="button">Jana analisis</button>
+        </div>
+      </div>
+      <div id="analysisStatus" class="analysis-status" role="status" aria-live="polite">Memuatkan analisis…</div>
+      <div id="analysisSummary" class="analysis-summary" aria-label="Ringkasan peratus kehadiran"></div>
+      <div class="analysis-chart-layout">
+        <div class="chart-shell">
+          <div class="chart-title-row">
+            <div><strong id="analysisRangeLabel">—</strong><small>Graf garis peratus kehadiran bagi tarikh yang mempunyai rekod</small></div>
+            <div class="chart-legend" aria-label="Petunjuk carta"><span><i class="legend-all"></i>Keseluruhan</span><span><i class="legend-morning"></i>Sidang pagi</span><span><i class="legend-afternoon"></i>Sidang petang</span></div>
+          </div>
+          <div id="attendanceChart" class="attendance-chart" aria-label="Carta graf peratus kehadiran"></div>
+        </div>
+        <aside class="analysis-best-card" aria-labelledby="analysisBestTitle">
+          <div class="analysis-best-head"><div><span>🏆 PRESTASI KELAS</span><strong id="analysisBestTitle">Kelas Kehadiran Terbaik</strong></div><label>Tempoh<select id="analysisBestPeriod" aria-label="Pilih tempoh kelas kehadiran terbaik"><option value="week">Mingguan</option><option value="month">Bulanan</option></select></label></div>
+          <p id="analysisBestRange">—</p>
+          <div id="analysisBestClass" class="analysis-best-list" aria-live="polite"></div>
+          <p id="analysisBestInsight" class="analysis-best-insight">Pilih kelas untuk melihat ringkasan pencapaiannya.</p>
+        </aside>
+      </div>
+      <div class="analysis-detail-stack">
+        <details class="analysis-detail">
+          <summary><span><b>🎯 KPI Kehadiran Bulanan</b><small>Prestasi sekolah dan kelas berbanding sasaran 96%</small></span><i>＋</i></summary>
+          <section class="kpi-panel" aria-labelledby="kpiTitle">
+            <div class="kpi-heading"><div><p class="eyebrow">KPI 96%</p><h3 id="kpiTitle">Prestasi KPI Kehadiran Bulanan</h3></div><div class="kpi-filter-group"><label>Tahun<select id="kpiYear" aria-label="Pilih tahun analisis"></select></label><label>Bulan<select id="kpiMonth" aria-label="Pilih bulan analisis"></select></label></div></div>
+            <div id="kpiSummary" class="kpi-summary"></div>
+            <div class="kpi-columns"><section><h4>✅ Mencapai KPI 96%</h4><div id="kpiAchieved"></div></section><section><h4>⚠️ Belum Mencapai KPI 96%</h4><div id="kpiBelow"></div></section></div>
+            <div id="kpiClusters" class="kpi-clusters"></div>
+          </section>
+        </details>
+        <details class="analysis-detail">
+          <summary><span><b>🏆 Kelas Kehadiran Terbaik</b><small>Emas, perak, gangsa dan pencapaian tahunan</small></span><i>＋</i></summary>
+          <section class="podium-section" aria-labelledby="podiumTitle"><div class="podium-heading"><p class="eyebrow">Penghargaan kehadiran</p><h3 id="podiumTitle">Kelas Terbaik — Emas, Perak &amp; Gangsa</h3><p>Kedudukan dikira daripada purata rekod dalam tempoh yang dipilih.</p></div><div id="attendancePodium" class="attendance-podium"></div></section>
+          <section class="annual-winners-section" aria-labelledby="annualWinnersTitle">
+            <div class="annual-winners-heading"><div><p class="eyebrow">Pencapaian Kehadiran Terbaik Tahunan</p><h3 id="annualWinnersTitle">🏆 Kelas Kehadiran Emas <span id="annualWinnersYear">—</span></h3><p>Pemenang setiap bulan ditentukan daripada purata keseluruhan rekod kelas bagi bulan tersebut.</p></div></div>
+            <p id="annualWinnersStatus" class="analysis-status" role="status" aria-live="polite">Memuatkan pencapaian tahunan…</p>
+            <div id="annualWinnersGrid" class="annual-winners-grid"></div>
+          </section>
+        </details>
+        <details class="analysis-detail">
+          <summary><span><b>📋 Data Kehadiran Mengikut Tarikh</b><small>Buka jadual lengkap untuk semakan terperinci</small></span><i>＋</i></summary>
+          <div class="analysis-table-wrap">
+            <table class="analysis-table">
+              <thead><tr><th>Tarikh</th><th>Keseluruhan</th><th>Sidang pagi</th><th>Sidang petang</th><th>Rekod kelas</th></tr></thead>
+              <tbody id="analysisTableBody"></tbody>
+            </table>
+          </div>
+          <p class="analysis-note">Nota: Prasekolah dikira dalam keseluruhan sekolah sahaja. Tanda “—” bermaksud belum ada rekod disimpan bagi sidang atau tarikh tersebut.</p>
+        </details>
+      </div>
+    </section>
+
+    <section id="rmtStatusView" class="utility-card app-view no-print" data-view-panel="rmtStatus" hidden>
+      <section class="rmt-duty-inline-card" aria-labelledby="rmtDutyInlineTitle">
+        <div class="rmt-duty-inline-head">
+          <div><p class="eyebrow">Guru bertugas minggu ini</p><h2 id="rmtDutyInlineTitle">Senarai Guru Bertugas RMT</h2><p id="rmtDutySnapshotStatus">Memuatkan senarai guru…</p></div>
+          <a class="rmt-portal-button" href="https://appsjohor.moe.gov.my/rmt" target="_blank" rel="noopener noreferrer">Buka Portal RMT</a>
+        </div>
+        <div class="rmt-duty-snapshot" aria-live="polite">
+          <article class="morning"><strong>Sidang Pagi</strong><p id="rmtMorningSnapshot">Memuatkan…</p></article>
+          <article class="afternoon"><strong>Sidang Petang</strong><p id="rmtAfternoonSnapshot">Memuatkan…</p></article>
+        </div>
+        <details id="rmtDutyEditor" class="rmt-duty-editor">
+          <summary>Kemas kini senarai guru bertugas</summary>
+          <div id="rmtTemplateForm" class="rmt-template-form">
+            <div class="rmt-meta-grid"><label>Nombor minggu<input id="rmtWeek" type="number" inputmode="numeric" min="1" max="53" placeholder="Contoh: 12" required><small>Masukkan nombor minggu sekolah</small></label><label>Tarikh pengisian<input id="rmtFrom" type="date" required><small>Tarikh guru membuat pengisian</small></label><input id="rmtTo" type="hidden"></div>
+            <div class="rmt-count-grid"><label>Jumlah Murid RMT Pagi<input id="rmtMorningCount" type="number" min="0" value="142"></label><label>Jumlah Murid RMT Petang<input id="rmtAfternoonCount" type="number" min="0" value="119"></label><div class="rmt-total-display"><span>Jumlah keseluruhan RMT</span><strong id="rmtComputedTotal">261</strong><small>Dikira secara automatik</small></div></div>
+            <div class="rmt-duty-session-picker"><label>Paparan sidang<select id="rmtDutySessionView"><option value="morning">🌅 Sidang Pagi</option><option value="afternoon">🌇 Sidang Petang</option></select></label><small>Hanya satu senarai dipaparkan pada satu masa.</small></div>
+            <div class="rmt-session-grid single-session"><fieldset data-rmt-duty-panel="morning"><legend>📗 Guru sesi pagi</legend><div id="rmtMorningNames" class="rmt-name-list"></div></fieldset><fieldset data-rmt-duty-panel="afternoon" hidden><legend>📕 Guru sesi petang</legend><div id="rmtAfternoonNames" class="rmt-name-list"></div></fieldset></div>
+            <div class="rmt-template-actions"><button id="rmtDutySave" class="primary-button" type="button">Simpan Senarai Guru Bertugas Mingguan</button><p id="rmtDutyStatus" class="form-message" role="status">Senarai ini akan disimpan mengikut minggu dan boleh dilihat pada semua peranti.</p></div>
+          </div>
+        </details>
+      </section>
+      <section class="rmt-calendar-panel" aria-labelledby="rmtCalendarTitle">
+        <div class="rmt-calendar-heading"><div><p class="eyebrow">Kalendar bulanan</p><h3 id="rmtCalendarTitle">Status Pengisian RMT</h3><p>Setiap petak menunjukkan menu serta bilangan RMT dibekalkan berbanding penerima. Klik tarikh untuk membuka laporan dan gambar.</p></div><label>Bulan laporan<input id="rmtCalendarMonth" type="month"></label></div>
+        <div class="rmt-summary-grid"><div><span>Jumlah laporan</span><strong id="rmtSummaryTotal">0</strong></div><div class="morning"><span>Sidang pagi</span><strong id="rmtSummaryMorning">0</strong></div><div class="afternoon"><span>Sidang petang</span><strong id="rmtSummaryAfternoon">0</strong></div><div class="complete"><span>Hari lengkap</span><strong id="rmtSummaryComplete">0</strong></div></div>
+        <div class="rmt-calendar-legend" aria-label="Petunjuk warna kalendar"><span class="morning-only">Kuning: laporan pagi</span><span class="afternoon-only">Hijau terang: laporan petang</span><span class="both">Kuning + hijau: dua sidang</span><span class="missing">Merah muda: belum diisi</span><span class="weekend">Merah: Sabtu/Ahad — Tiada RMT</span><span class="future">Kelabu: tarikh akan datang</span></div>
+        <div class="rmt-calendar-weekdays" aria-hidden="true"><span>Isn</span><span>Sel</span><span>Rab</span><span>Kha</span><span>Jum</span><span>Sab</span><span>Ahd</span></div>
+        <div id="rmtCalendarGrid" class="rmt-calendar-grid" aria-live="polite"></div>
+        <div class="rmt-calendar-footer"><p id="rmtCalendarStatus" role="status">Memuatkan rekod RMT…</p><button id="rmtShowAll" class="secondary-button" type="button" hidden>Tutup Laporan Dipilih</button></div>
+      </section>
+    </section>
+
+    <section id="rmtReportView" class="utility-card app-view no-print" data-view-panel="rmtReport" hidden>
+      <section class="rmt-photo-section" aria-labelledby="rmtPhotoTitle">
+        <div><p class="eyebrow">Pengisian mengikut sidang</p><h3 id="rmtPhotoTitle">Laporan RMT Harian</h3><p>Pilih sidang, kemudian lengkapkan satu borang sahaja.</p></div>
+        <div class="rmt-report-grid">
+          <form class="rmt-report-card single-card" data-rmt-session="single">
+            <label class="rmt-session-choice rmt-paired-field">Pilih sidang<select data-rmt-field="session" required><option value="morning">🌅 Sidang Pagi</option><option value="afternoon">🌇 Sidang Petang</option></select></label>
+            <label class="rmt-paired-field">Penilaian / Keadaan RMT<select data-rmt-field="rating" required><option value="Baik">Baik</option><option value="Memuaskan">Memuaskan</option><option value="Kurang Memuaskan">Kurang Memuaskan</option></select></label>
+            <label class="rmt-number-field rmt-paired-field">Bilangan Penerima RMT<input data-rmt-field="recipients" type="number" inputmode="numeric" min="0" required></label>
+            <label class="rmt-number-field rmt-paired-field">Bilangan RMT Dibekalkan<input data-rmt-field="supplied" type="number" inputmode="numeric" min="0" required></label>
+            <label class="rmt-paired-field">Menu RMT<select data-rmt-field="menu" required><option value="">Pilih menu RMT hari ini</option><option>Menu RMT 1 - Nasi Ayam</option><option>Menu RMT 2 - Nasi Lemak</option><option>Menu RMT 3 - Bubur Nasi</option><option>Menu RMT 4 - Mi Goreng</option><option>Menu RMT 5 - Bihun Goreng Putih</option><option>Menu RMT 6 - Soto</option><option>Menu RMT 7 - Nasi Paprik</option><option>Menu RMT 8 - Nasi Goreng Cina</option><option>Menu RMT 9 - Bihun Sup</option><option>Menu RMT 10 - Makaroni Sup</option><option>Menu RMT 11 - Roti Canai</option><option>Menu RMT 12 - Roti + Telur Hancur + Kacang Panggang</option><option>Menu RMT 13 - Ayam Panggang dan Kentang</option><option>Menu RMT 14 - Bijirin Sarapan Pagi</option><option>Menu RMT 15 - Kuih-muih</option><option>Menu RMT 16 - Nasi + Kari Ayam/Kari Ikan Tenggiri</option><option>Menu RMT 17 - Nasi Goreng Kampung</option><option>Menu RMT 18 - Bubur Kacang + Roti Putih</option><option>Menu RMT 19 - Roti Putih + Sup Ayam/Sup Ikan Tenggiri</option><option>Menu RMT 20 - Bun + Kari Ayam/Kari Ikan Tenggiri</option><option>Tiada Dalam Senarai Menu RMT</option><option>Menu RMT (Bulan Puasa) - Roti + Buah</option></select></label>
+            <label class="rmt-paired-field">Catatan Guru Bertugas — Pilihan<textarea data-rmt-field="notes" rows="2"></textarea></label>
+            <label class="photo-uploader">Gambar laporan<input data-rmt-field="photos" type="file" accept="image/*,.heic,.heif" multiple required><span>Pilih 1 hingga 4 gambar.</span></label>
+            <button class="primary-button rmt-submit-inline" type="submit">Simpan Laporan RMT</button><div class="monitoring-preview rmt-field-wide" data-rmt-preview></div><p class="form-message rmt-field-wide" data-rmt-status></p>
+          </form>
+        </div>
+        <div hidden aria-hidden="true"><select id="rmtPhotoSession"><option value="morning">Pagi</option></select><input id="rmtPhotos" type="file"><button id="rmtPhotoSave" type="button"></button><p id="rmtPhotoStatus"></p><div id="rmtImagePreview"></div></div>
+      </section>
+    </section>
+
+    <section id="rmtArchiveView" class="utility-card app-view no-print" data-view-panel="rmtArchive" hidden>
+      <div class="utility-head rmt-archive-head"><div><p class="eyebrow">Arkib laporan RMT</p><h2 id="rmtGalleryTitle">Laporan &amp; Gambar Mengikut Tarikh</h2><p id="rmtGallerySubtitle">Pilih tarikh untuk membuka laporan pagi atau petang berserta gambar.</p></div><label>Tarikh laporan<input id="rmtArchiveDate" type="date"></label></div>
+      <div class="rmt-shared-heading"><div><h3>Laporan Tarikh Dipilih</h3><small>Hanya rekod bagi tarikh pilihan dipaparkan.</small></div><button id="rmtPhotoRefresh" class="secondary-button" type="button">Muat semula</button></div>
+      <p id="rmtSharedStatus" class="monitoring-list-status" role="status">Memuatkan gambar RMT…</p>
+      <div id="rmtSharedGallery" class="rmt-shared-gallery" aria-live="polite"></div>
+    </section>
+  </main>
+  </div>
+  </div>
+
+  <div id="recordEditModal" class="modal-backdrop no-print" hidden>
+    <section class="admin-modal record-edit-modal" role="dialog" aria-modal="true" aria-labelledby="recordEditTitle">
+      <button id="recordEditClose" class="modal-close" type="button" aria-label="Tutup">×</button>
+      <p class="modal-kicker">KEMAS KINI REKOD</p>
+      <h2 id="recordEditTitle">Edit rekod</h2>
+      <p class="record-edit-note">Perubahan direkodkan secara automatik menggunakan nama pengisi semasa.</p>
+      <form id="recordEditForm" class="record-edit-form">
+        <input id="recordEditType" type="hidden"><input id="recordEditId" type="hidden">
+        <div id="oprEditFields" class="record-edit-fields">
+          <label>Nama program<input id="editOprProgram" type="text" maxlength="180" required></label>
+          <label>Tarikh program<input id="editOprDate" type="date" required></label>
+          <label>Disediakan oleh<select id="editOprPreparedBy" class="staff-choice" required><option value="">Pilih nama guru / AKP</option></select></label>
+        </div>
+        <div id="letterEditFields" class="record-edit-fields" hidden>
+          <label>Tajuk surat<input id="editLetterName" type="text" maxlength="220"></label>
+          <label>Tarikh surat<input id="editLetterDate" type="date"></label>
+          <label>Kategori<select id="editLetterCategory"><option>Surat Masuk</option><option>Surat Keluar</option><option>Surat Dalaman</option><option>Surat Makluman</option><option>Surat PPD / JPN / KPM</option><option>Lain-lain</option></select></label>
+          <label>No. rujukan<input id="editLetterReference" type="text" maxlength="120"></label>
+          <label>Nama pengunggah<select id="editLetterUpdatedBy" class="staff-choice"><option value="">Pilih nama guru / AKP</option></select></label>
+          <label>Pautan Google Drive<input id="editLetterDriveUrl" type="url" placeholder="https://drive.google.com/..."></label>
+          <label class="record-edit-wide">Catatan<textarea id="editLetterNote" maxlength="1000" rows="3"></textarea></label>
+        </div>
+        <p class="record-editor-audit">Penyunting: <strong id="recordEditorName">—</strong></p>
+        <div class="admin-save-row"><button id="recordEditSave" class="primary-button" type="submit">Simpan perubahan</button><span id="recordEditStatus" class="form-message" role="status"></span></div>
+      </form>
+    </section>
+  </div>
+
+  <div id="adminModal" class="modal-backdrop no-print" hidden>
+    <section class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
+      <button id="adminClose" class="modal-close" type="button" aria-label="Tutup">×</button>
+      <div id="adminLoginView">
+        <p class="modal-kicker">UNTUK PENTADBIR SAHAJA</p>
+        <h2 id="adminTitle">Tetapan Sistem</h2>
+        <p>Urus kelas serta senarai nama guru dan AKP dengan kod admin.</p>
+        <form id="adminLoginForm" class="admin-login-form">
+          <label>Kod admin<input id="adminPin" type="password" autocomplete="current-password" required></label>
+          <button class="primary-button" type="submit">Masuk sebagai admin</button>
+          <p id="adminError" class="form-message" role="alert"></p>
+        </form>
+      </div>
+      <div id="adminSettingsView" hidden>
+        <p class="modal-kicker">PENTADBIR DISAHKAN</p>
+        <section class="admin-private-tools" aria-labelledby="adminPrivateToolsTitle">
+          <div><p class="modal-kicker">PAPARAN PENTADBIR</p><h2 id="adminPrivateToolsTitle">Semakan Rekod Ikut Kalendar</h2><p>Paparan ini dikeluarkan daripada menu awam dan hanya boleh dibuka selepas pengesahan pentadbir.</p></div>
+          <a class="secondary-button" href="#rekod-kalendar" data-admin-calendar-link>▦ Buka rekod kalendar</a>
+        </section>
+        <section class="admin-stat-section">
+          <h2>Statistik Warga SK Ranggu</h2><p>Kemas kini jumlah yang dipaparkan pada laman utama.</p>
+          <div class="admin-stat-grid"><label>Jumlah Guru<input id="adminTeacherCount" type="number" inputmode="numeric" min="0" max="500"></label><label>Jumlah AKP<input id="adminAkpCount" type="number" inputmode="numeric" min="0" max="100"></label></div>
+          <div class="admin-save-row"><button id="adminStatsSave" class="primary-button" type="button">Simpan statistik</button><span id="adminStatsStatus" class="form-message" role="status"></span></div>
+        </section>
+        <h2>Tetapan Kelas</h2>
+        <div class="effective-date-row">
+          <label>Berkuat kuasa mulai<input id="profileEffectiveDate" type="date" required></label>
+          <p>Perubahan hanya digunakan mulai tarikh ini. Laporan lama tidak berubah.</p>
+        </div>
+        <div class="admin-table-scroll">
+          <table class="admin-table">
+            <thead><tr><th>Kelas</th><th>Nama guru kelas</th><th>Murid lelaki</th><th>Murid perempuan</th></tr></thead>
+            <tbody id="adminClassBody"></tbody>
+          </table>
+        </div>
+        <div class="admin-save-row">
+          <button id="adminSave" class="primary-button" type="button">Simpan tetapan</button>
+          <span id="adminSaveStatus" class="form-message" role="status"></span>
+        </div>
+        <section class="admin-staff-section" aria-labelledby="adminStaffTitle">
+          <div class="admin-section-heading">
+            <div>
+              <p class="modal-kicker">SENARAI BERSAMA</p>
+              <h2 id="adminStaffTitle">Nama Guru &amp; AKP</h2>
+              <p>Nama aktif akan muncul dalam pilihan “Nama pengisi” dan “Keberadaan Guru &amp; AKP” pada semua peranti. Nyahaktifkan nama untuk menyembunyikannya tanpa memadam rekod lama.</p>
+            </div>
+            <button id="adminStaffAdd" class="secondary-button" type="button">+ Tambah nama</button>
+          </div>
+          <div class="admin-table-scroll admin-staff-scroll">
+            <table class="admin-table admin-staff-table">
+              <thead><tr><th>Bil.</th><th>Nama penuh</th><th>Status</th><th>Tindakan</th></tr></thead>
+              <tbody id="adminStaffBody"></tbody>
+            </table>
+          </div>
+          <div class="admin-save-row">
+            <button id="adminStaffSave" class="primary-button" type="button">Simpan senarai nama</button>
+            <span id="adminStaffSaveStatus" class="form-message" role="status"></span>
+          </div>
+        </section>
+        <section class="admin-content-section" aria-labelledby="adminAnnouncementTitle">
+          <div class="admin-section-heading">
+            <div><p class="modal-kicker">MAKLUMAN GLOBAL</p><h2 id="adminAnnouncementTitle">News Ticker HEM</h2><p>Tambah, susun dan aktifkan makluman yang akan bergerak di bahagian bawah semua paparan.</p></div>
+            <button id="adminAnnouncementAdd" class="secondary-button" type="button">+ Tambah makluman</button>
+          </div>
+          <div id="adminAnnouncementList" class="admin-announcement-list"></div>
+          <div class="ticker-preview" aria-label="Pratonton ticker"><strong>📢 MAKLUMAN HEM</strong><div class="news-ticker-viewport"><div id="adminTickerPreviewTrack" class="news-ticker-track"></div></div></div>
+          <div class="admin-save-row"><button id="adminAnnouncementSave" class="primary-button" type="button">Simpan makluman</button><span id="adminAnnouncementStatus" class="form-message" role="status"></span></div>
+        </section>
+        <section class="admin-content-section" aria-labelledby="adminLetterTitle">
+          <div class="admin-section-heading"><div><p class="modal-kicker">ARKIB DOKUMEN</p><h2 id="adminLetterTitle">Surat Menyurat HEM</h2><p>Guru memasukkan surat terus melalui halaman Template OPR HEM tanpa kod pentadbir. Arkib semasa dipaparkan di bawah untuk semakan pentadbir.</p></div></div>
+          <div id="adminLetterList" class="admin-letter-list"></div>
+        </section>
+        <section class="admin-organization-section" aria-labelledby="adminOrganizationTitle">
+          <div class="admin-section-heading">
+            <div>
+              <p class="modal-kicker">CARTA ORGANISASI</p>
+              <h2 id="adminOrganizationTitle">Pengurusan Organisasi HEM</h2>
+              <p>Pilih nama daripada senarai guru, tetapkan bidang, jawatan, peranan dan susunan. Gambar disimpan secara kekal dan dipaparkan pada semua peranti.</p>
+            </div>
+            <button id="adminOrganizationAdd" class="secondary-button" type="button">+ Tambah pegawai / bidang</button>
+          </div>
+          <div id="adminOrganizationList" class="admin-organization-list" aria-live="polite"></div>
+          <div class="admin-save-row">
+            <button id="adminOrganizationSave" class="primary-button" type="button">Simpan organisasi HEM</button>
+            <span id="adminOrganizationStatus" class="form-message" role="status"></span>
+          </div>
+        </section>
+      </div>
+    </section>
+  </div>
+
+  <aside id="globalNewsTicker" class="global-news-ticker no-print" aria-label="Makluman HEM" hidden>
+    <strong>📢 MAKLUMAN HEM</strong>
+    <div class="news-ticker-viewport"><div id="newsTickerTrack" class="news-ticker-track"></div></div>
+  </aside>
+  <footer class="site-footer"><strong>HEM SMARTTRACK</strong><span>Dibangunkan oleh Mohammad Fikrey Bin Abdul Gapar</span></footer>
+  <script src="../config.js"></script>
+  <script src="tenant-bootstrap.js?v=1" defer></script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+
 (() => {
   "use strict";
 
@@ -7,7 +8,10 @@
 
   const esc = (value) => String(value ?? "").replace(/[&<>'"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[char]);
   const formData = (form) => Object.fromEntries(new FormData(form).entries());
-  const apiReady = () => /^https://script.google.com/macros/s/.+/exec/.test(config.apiUrl || "");
+  const apiReady = () => {
+    const url = String(config.apiUrl || "");
+    return url.startsWith("https://script.google.com/macros/s/") && url.endsWith("/exec");
+  };
 
   async function api(action, payload = {}, method = "POST") {
     if (!apiReady()) throw new Error("Pelayan HEMSTT belum disambungkan. Pentadbir utama perlu melengkapkan URL Google Apps Script.");

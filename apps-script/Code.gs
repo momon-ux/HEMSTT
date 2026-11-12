@@ -199,7 +199,7 @@ function invalidateSchoolSessions_(schoolId) { const sheet = sheet_("sessions");
 function cleanupSessions_() { const sheet = sheet_("sessions"); const data = sheet.getDataRange().getValues(); for (let i = data.length - 1; i >= 1; i--) if (Number(data[i][5]) <= Date.now()) sheet.deleteRow(i + 1); }
 
 function saveLogo_(school, dataUrl, originalName) {
-  const match = String(dataUrl).match(/^data:(image/(?:png|jpeg));base64,(.+)$/);
+  const match = String(dataUrl).match(/^data:(image\/(?:png|jpeg));base64,(.+)$/);
   if (!match) throw new Error("Gunakan logo PNG atau JPG yang sah.");
   const bytes = Utilities.base64Decode(match[2]);
   if (bytes.length > 2000000) throw new Error("Logo mestilah di bawah 2 MB.");
